@@ -1,0 +1,23 @@
+Meeting: Ticketing System Migration – Initial Discussion
+
+Participants: IT Manager, Service Manager, Dev Team, Business Stakeholders
+
+Summary:
+The company plans to migrate the current ticketing system (manual + basic Azure DevOps setup) to a more advanced platform with SLA tracking, automated ticket routing, and email integration.
+
+Key points discussed:
+- Current system lacks SLA visibility and reporting capabilities
+- Manual ticket assignment is causing delays and inefficiencies
+- Business requires faster response times and better tracking of incidents and service requests
+- Integration with Outlook email system is required
+- Historical ticket data migration is required
+- No clear ownership defined yet for SLA monitoring
+- Users are not fully trained on current ticketing processes
+- Budget constraints may limit customization
+- Timeline proposed: 3 months for full migration
+
+Open concerns:
+- Data migration complexity and data quality
+- Risk of service disruption during migration
+- Lack of clear process documentation
+- Dependency on external vendor for new platform implementation

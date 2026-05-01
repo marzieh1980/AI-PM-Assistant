@@ -1,0 +1,37 @@
+Title: Service Level Agreement (SLA) Policy
+
+Overview:
+This document defines the expected response and resolution times for IT support services.
+
+Response Time Targets:
+- P1 (Critical): 15 minutes
+- P2 (High): 1 hour
+- P3 (Medium): 4 hours
+- P4 (Low): 8 hours
+
+Resolution Time Targets:
+- P1 (Critical): 4 hours
+- P2 (High): 8 hours
+- P3 (Medium): 24 hours
+- P4 (Low): 48 hours
+
+Definitions:
+- Response Time: Time taken to acknowledge the issue.
+- Resolution Time: Time taken to resolve the issue.
+
+SLA Breach:
+If resolution time exceeds the defined SLA, it is considered a breach.
+
+Escalation Rules:
+- P1 incidents must be immediately escalated to senior support.
+- Repeated SLA breaches must be reviewed by service management.
+
+Service Hours:
+- Standard support: Monday to Friday, 9 AM to 6 PM
+- Critical support: 24/7
+
+Reporting:
+Monthly SLA performance reports should be generated and reviewed.
+
+Continuous Improvement:
+SLA metrics should be used to identify improvement opportunities in service delivery.

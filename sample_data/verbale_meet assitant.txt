@@ -1,0 +1,125 @@
+Teams Auto‑Transcript – Project “Orion Platform” Weekly Sync
+Date: April 10th, 2026
+Duration: 1h 41m
+Recording started automatically
+
+[15:00 – Marco Rossi | Project Manager]  
+Uh, okay, I see most people are here. Let’s get started. The meeting is being recorded.
+Today we need to review progress on release 1.2, check blockers, and confirm the timeline.
+Laura, can you kick us off with the authentication module?
+
+[15:02 – Laura Bianchi | Lead Developer]  
+Yeah, sure. So… the refactor is basically done, around 90%.
+The only missing part is the integration tests with the new OAuth2 provider.
+I ran into some issues with the refresh token flow — the provider changed something in the spec last week — but I think I can fix it.
+I should be able to finish everything by April 17th.
+
+[15:04 – Marco]  
+Okay, April 17th noted. Do you need support from anyone?
+
+[15:05 – Laura]  
+Maybe later, but for now I’m good.
+
+[15:05 – Marco]  
+Alright. Giacomo, pipeline update?
+
+[15:06 – Giacomo Ferrero | DevOps Engineer]  
+Yeah, so… the migration from Jenkins to GitHub Actions is complete.
+Builds are running fine, but we’re still at around 14 minutes per build.
+Too slow.
+I’m working on caching Docker layers and splitting some jobs.
+I think I can push the first improvements by April 12th.
+
+[15:07 – Marco]  
+And the target is still under 10 minutes, right?
+
+[15:07 – Giacomo]  
+Yep, under 10 would be ideal. Eight would be perfect, but let’s see.
+
+[15:08 – Marco]  
+Okay. Sara, dashboard?
+
+[15:08 – Sara Conti | UX/UI Designer]  
+Yep. Wireframes are approved.
+I’m building the interactive prototype — should be ready by April 20th.
+Also, Paolo asked me to start the mobile responsive mockups earlier than planned, so I’m doing that in parallel.
+
+[15:09 – Paolo Greco | Product Owner]  
+Yeah, sorry about that. I need them for a presentation with the stakeholders next week.
+Also, I’m updating the backlog. There are some missing user stories for the analytics module.
+I’ll finalize them by April 15th.
+
+[15:11 – Marco]  
+Good.
+Before moving on, any blockers so far?
+
+[15:11 – Laura]  
+Just the OAuth2 spec changes, but nothing major.
+
+[15:12 – Giacomo]  
+Build times are the only real pain point.
+
+[15:12 – Sara]  
+I need clearer metrics for the analytics dashboard. Right now I’m designing blind.
+
+[15:13 – Paolo]  
+Yeah, yeah, I’ll define them. Adding it to my list.
+
+[15:14 – Marco]  
+Okay, decisions.
+First: do we confirm the release date for version 1.2 as April 30th?
+Any objections?
+
+[15:15 – (multiple voices)]  
+No / sounds good / fine.
+
+[15:15 – Marco]  
+Alright, confirmed.
+Second: we’ll release the new analytics dashboard behind feature flags.
+Beta mode only.
+
+[15:16 – Giacomo]  
+I’ll handle the backend part. Shouldn’t take long.
+
+[15:16 – Marco]  
+Great.
+Third: pipeline optimization is now a high priority.
+We can’t keep losing time on slow builds.
+
+[15:18 – Sara]  
+Oh, one more thing — for the dashboard, do we want dark mode support in this release or later?
+
+[15:19 – Marco]  
+Hmm… good question.
+Paolo?
+
+[15:19 – Paolo]  
+Let’s postpone it. Not essential for 1.2.
+
+[15:20 – Laura]  
+Yeah, please postpone it. We’re already tight.
+
+[15:20 – Marco]  
+Okay, dark mode moved to 1.3.
+
+[15:21 – Giacomo]  
+Also, small note: GitHub Actions is hitting concurrency limits during peak hours.
+We might need to upgrade the plan or reduce parallel jobs.
+
+[15:22 – Marco]  
+Let’s evaluate costs first.
+Can you prepare a quick comparison by next meeting?
+
+[15:22 – Giacomo]  
+Yep, sure.
+
+[15:23 – Sara]  
+Sorry, can I jump in?
+For the prototype, I’ll need sample data.
+Right now I’m using placeholder numbers.
+
+[15:23 – Paolo]  
+I can generate a dataset. Give me… uh… two days?
+
+[15:24 – Sara]  
+Perfect.

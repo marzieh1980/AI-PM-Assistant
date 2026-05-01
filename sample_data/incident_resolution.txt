@@ -1,0 +1,33 @@
+Title: Incident Management and Resolution Process
+
+Overview:
+This document outlines the standard process for handling IT incidents.
+
+Incident Definition:
+An incident is any unplanned interruption or reduction in quality of an IT service.
+
+Steps to Resolve an Incident:
+1. Identify and log the incident in the ticketing system.
+2. Categorize the incident (e.g., Hardware, Software, Network).
+3. Assign priority based on impact and urgency.
+4. Investigate and diagnose the issue.
+5. Apply a workaround or permanent fix.
+6. Test the solution.
+7. Close the incident after user confirmation.
+
+Priority Levels:
+- P1 (Critical): Service completely down
+- P2 (High): Major functionality impacted
+- P3 (Medium): Minor issue
+- P4 (Low): Request or minor inconvenience
+
+Escalation Process:
+- If unresolved within SLA, escalate to Level 2 support.
+- Critical incidents must be escalated immediately.
+
+Communication:
+- Keep users informed at regular intervals.
+- Provide resolution details upon closure.
+
+Example:
+If a user cannot access email, log the issue, check server status, reset credentials if needed, and confirm with the user.
