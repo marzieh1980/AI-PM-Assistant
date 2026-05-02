@@ -10,12 +10,99 @@ Architecture:
 
 import streamlit as st
 import uuid
+
 from datetime import datetime
 
 import storage as db
 from rag_core import load_uploaded_documents, create_vector_db, ask_rag, ask_general, ask_with_context
 from meeting_assistant import summarize_meeting, read_uploaded_file
 from risk_analyzer import analyze_risk, read_uploaded_file as risk_read_file
+from task_extractor import extract_tasks
+from effort_estimator import estimate_effort
+
+import pandas as pd
+from io import BytesIO
+import re
+
+def parse_tasks_to_df(text):
+    tasks = []
+    current = {}
+
+    for line in text.split("\n"):
+        line = line.strip()
+
+        if line.startswith("• Name:"):
+            if current:
+                tasks.append(current)
+                current = {}
+            current["Name"] = line.replace("• Name:", "").strip()
+
+        elif line.startswith("• Description:"):
+            current["Description"] = line.replace("• Description:", "").strip()
+
+        elif line.startswith("• Priority:"):
+            current["Priority"] = line.replace("• Priority:", "").strip()
+
+        elif line.startswith("• Type:"):
+            current["Type"] = line.replace("• Type:", "").strip()
+
+        elif line.startswith("• Dependencies:"):
+            current["Dependencies"] = line.replace("• Dependencies:", "").strip()
+
+        elif line.startswith("• Assignee:"):
+            current["Assignee"] = line.replace("• Assignee:", "").strip()
+
+    if current:
+        tasks.append(current)
+
+    return pd.DataFrame(tasks)
+
+
+def parse_effort_to_df(text):
+    tasks = []
+    current = {}
+
+    for line in text.split("\n"):
+        line = line.strip()
+
+        if line.startswith("• Name:"):
+            if current:
+                tasks.append(current)
+                current = {}
+            current["Name"] = line.replace("• Name:", "").strip()
+
+        elif line.startswith("• Estimated Hours:"):
+            current["Hours"] = line.replace("• Estimated Hours:", "").strip()
+
+        elif line.startswith("• Rate:"):
+            current["Rate"] = line.replace("• Rate:", "").strip()
+
+        elif line.startswith("• Total Cost:"):
+            current["Total Cost"] = line.replace("• Total Cost:", "").strip()
+
+        elif line.startswith("• Complexity:"):
+            current["Complexity"] = line.replace("• Complexity:", "").strip()
+
+        elif line.startswith("• Contingency:"):
+            current["Contingency"] = line.replace("• Contingency:", "").strip()
+
+        elif line.startswith("• Final Cost:"):
+            current["Final Cost"] = line.replace("• Final Cost:", "").strip()
+
+        elif line.startswith("• Assigned Role:"):
+            current["Assigned Role"] = line.replace("• Assigned Role:", "").strip()
+
+    if current:
+        tasks.append(current)
+
+    return pd.DataFrame(tasks)
+
+
+def df_to_excel(df):
+    output = BytesIO()
+    df.to_excel(output, index=False)
+    return output.getvalue()
+
 
 # ──────────────────────────────────────────────────────────
 # PAGE CONFIG
@@ -634,12 +721,13 @@ def main_app():
     st.title("🤖 AI PM Assistant")
     st.caption(f"Logged in as **{st.session_state.user['username']}**  ·  Knowledge Hub · Meeting Assistant · Risk Analyzer · Your Assistant")
 
-    tab_knowledge, tab_meeting, tab_risk, tab_assistant = st.tabs([
-        "📄 Knowledge Hub",
-        "📝 Meeting Assistant",
-        "⚠️ Risk Analyzer",
-        "🤖 Your Assistant",
-    ])
+    tab_knowledge, tab_meeting, tab_risk, tab_planning, tab_assistant = st.tabs([
+    "📄 Knowledge Hub",
+    "📝 Meeting Assistant",
+    "⚠️ Risk Analyzer",
+    "� Task & Effort Planner",
+    "🤖 Your Assistant",
+])
 
     # ════════════════════════════════════════════════
     # TAB 1 — KNOWLEDGE HUB
@@ -728,7 +816,7 @@ def main_app():
         st.markdown('<div class="sec-label">Meeting Assistant — summary and follow-up</div>', unsafe_allow_html=True)
         st.markdown(
             '<div class="upload-hint">📋 This page prepares a meeting summary from the uploaded transcription. ' 
-            'By default it extracts Participants, date & time, Decisions made, and Action items. ' 
+            'By default it extracts Participants, Decisions made, and Action items. ' 
             'If you need more detail from the call, ask in the box below.</div>',
             unsafe_allow_html=True
         )
@@ -848,6 +936,82 @@ def main_app():
             if "risk_output" in st.session_state and st.session_state.risk_output:
                 st.markdown("### 📊 Risk Analysis Report")
                 st.markdown(st.session_state.risk_output)
+
+    # ════════════════════════════════════════════════
+    # TAB 4 — AI PLANNING
+    # ════════════════════════════════════════════════
+    with tab_planning:
+        st.markdown("### 📋 AI Project Planning")
+
+        uploaded_file = st.file_uploader(
+            "Upload project description",
+            type=["txt"],
+            key="planning_file"
+        )
+
+        project_text = ""
+
+        if uploaded_file:
+            project_text = uploaded_file.read().decode("utf-8")
+            st.success("File loaded")
+
+        if project_text:
+
+            if st.button("🚀 Generate Tasks"):
+                with st.spinner("Extracting tasks..."):
+                    tasks = extract_tasks(project_text, st.session_state.model_name)
+                    st.session_state["tasks_output"] = tasks
+
+            #---
+            if "tasks_output" in st.session_state:
+                st.markdown("### 📋 Tasks")
+
+                st.markdown(st.session_state["tasks_output"])
+
+                try:
+                    df_tasks = parse_tasks_to_df(st.session_state["tasks_output"])
+                    excel_data = df_to_excel(df_tasks)
+
+                    st.download_button(
+                        label="📥 Download Tasks as Excel",
+                        data=excel_data,
+                        file_name="tasks.xlsx",
+                        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                    )
+                except:
+                    st.warning("⚠️ Could not convert tasks to Excel")
+            #---
+
+                if st.button("⏱️ Estimate Effort"):
+                    with st.spinner("Estimating effort..."):
+                        effort = estimate_effort(
+                            st.session_state["tasks_output"],
+                            st.session_state.model_name
+                        )
+                        st.session_state["effort_output"] = effort
+
+            if "effort_output" in st.session_state:
+                st.markdown("### ⏱️ Effort Estimation")
+                st.text_area("", st.session_state["effort_output"], height=300)
+
+
+            if "effort_output" in st.session_state:
+                st.markdown("### ⏱️ Effort Estimation")
+
+                st.markdown(st.session_state["effort_output"])
+
+                try:
+                    df_effort = parse_effort_to_df(st.session_state["effort_output"])
+                    excel_data = df_to_excel(df_effort)
+
+                    st.download_button(
+                        label="📥 Download Effort as Excel",
+                        data=excel_data,
+                        file_name="effort.xlsx",
+                        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                    )
+                except:
+                    st.warning("⚠️ Could not convert effort to Excel")
 
 
     # ════════════════════════════════════════════════

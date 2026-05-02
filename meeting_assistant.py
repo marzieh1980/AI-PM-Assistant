@@ -46,7 +46,9 @@ def summarize_meeting(text):
     text = clean_meeting_text(text)
 
     prompt = f"""
-You are an expert IT Project Manager assistant.
+You are an expert IT Project Manager assistant. Extract key information from meeting notes.
+DO NOT include date/time information in the output.
+Extract: Participants, Summary, Decisions Made, Action Items.
 
 Your task is to EXTRACT and SUMMARIZE meeting notes from a transcription document.
 

@@ -1,0 +1,53 @@
+Project: Enterprise IT Ticketing System (Web Platform)
+
+Objective:
+Design and implement a centralized ticketing system to manage internal IT support requests across multiple departments.
+
+Scope:
+The system must allow employees to submit support requests, track ticket status, and receive updates. IT agents must be able to manage, assign, and resolve tickets.
+
+Functional Requirements:
+
+User Management:
+- Users can register using company email
+- Role-based access (Employee, Agent, Admin)
+- Admin can manage users and roles
+
+Ticket Management:
+- Create ticket with category (Hardware, Software, Access, Network)
+- Attach files/screenshots
+- Assign priority (Low, Medium, High, Critical)
+- Track ticket status (Open, In Progress, Resolved, Closed)
+- Automatic ticket assignment based on category
+
+Notifications:
+- Email notifications for ticket updates
+- SLA breach alerts
+
+Reporting:
+- Dashboard with metrics (open tickets, SLA compliance, resolution time)
+- Export reports (CSV)
+
+Integrations:
+- Integration with email service
+- Integration with internal HR system for user data
+
+Non-Functional Requirements:
+- System must support 1000+ concurrent users
+- Response time < 2 seconds
+- Secure authentication (OAuth2)
+
+Dependencies:
+- Email API service
+- HR system API
+- Cloud infrastructure (Azure)
+
+Risks:
+- Delay in API integration
+- Data privacy compliance issues
+
+Team:
+- Frontend Developer
+- Backend Developer
+- QA Engineer
+- Project Manager
