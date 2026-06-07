@@ -111,3 +111,7 @@ External Dependencies (Low Risk)
 | Project health check | ⚠️ Risk Analyzer | Project plan risk assessment |
 | Simple chat | 🤖 Your Assistant | Brainstorming, quick advice |
 
+---
+
+Note: Chat history, user settings and prompts are persisted locally to a SQLite file (`aipm_data.db`) created automatically at first run. This file is not tracked in the repository; the vector DB used for document search is in-memory and session-scoped.
+

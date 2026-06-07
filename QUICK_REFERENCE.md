@@ -128,9 +128,9 @@ Your Assistant now operates as a **stateless, single-turn chat**:
 - If information isn't in docs, it will say: "I don't have enough information in the provided documents"
 - No hallucinations or made-up answers
 
-✅ **Document Storage**: 
-- Documents are stored in-memory (vector DB not saved)
-- Your chat history IS saved to database
+✅ **Document & App Storage**: 
+- Documents are stored in-memory (vector DB is session-only and not persisted to the repo)
+- Chat history, user settings and prompts are persisted locally to a SQLite file (`aipm_data.db`) created on first run. This DB file is local-only and is not tracked in the repository (see `.gitignore`).
 - Always keep original documents if you need them later
 
 ✅ **Meeting Analysis**:

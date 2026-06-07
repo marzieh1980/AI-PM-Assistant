@@ -76,14 +76,14 @@ Open: `http://localhost:8501`
 ```
 AI-PM-Assistant/
 ├── app.py                    # Main Streamlit application
-├── rag_core.py              # Document search & embedding
-├── meeting_assistant.py     # Meeting analysis logic
-├── task_extractor.py        # Task extraction
-├── effort_estimator.py      # Effort estimation
-├── risk_analyzer.py         # Risk analysis
-├── storage.py               # Database (SQLite)
-├── sample_data/             # Example files
-└── README.md                # This file
+├── rag_core.py               # Document search & embedding
+├── meeting_assistant.py      # Meeting analysis logic
+├── task_extractor.py         # Task extraction
+├── effort_estimator.py       # Effort estimation
+├── risk_analyzer.py          # Risk analysis
+├── storage.py                # Local persistence (SQLite file: aipm_data.db)
+├── sample_data/              # Example files
+└── README.md                 # This file
 ```
 
 ---
@@ -103,7 +103,7 @@ Access via ⚙️ button in sidebar:
 
 **Model**: Works with any LM Studio compatible model  
 **API**: OpenAI-compatible API on `localhost:1234`  
-**Database**: SQLite (auto-created)  
+**Database**: Local SQLite file (`aipm_data.db`) created automatically at first run. The DB file is local-only and not tracked in the repository (see `.gitignore`). No external database server is required.  
 **Vector DB**: In-memory FAISS (session-based)
 
 ---
