@@ -59,6 +59,34 @@ Open: `http://localhost:8501`
 
 ---
 
+## ▶️ Run (commands)
+
+Install dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+Start normally (creates local SQLite `aipm_data.db`):
+```bash
+streamlit run app.py
+```
+
+Start without creating a DB file (in-memory only):
+
+PowerShell:
+```powershell
+$env:AIPM_PERSISTENCE = 'false'
+streamlit run app.py
+```
+
+macOS / Linux (bash):
+```bash
+export AIPM_PERSISTENCE=false
+streamlit run app.py
+```
+
+---
+
 ## 📊 How to Use Each Tab
 
 | Tab | Use Case | Steps |
