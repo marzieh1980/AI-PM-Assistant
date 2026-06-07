@@ -15,10 +15,10 @@ from datetime import datetime
 
 import storage as db
 from rag_core import load_uploaded_documents, create_vector_db, ask_rag, ask_general, ask_with_context
-from meeting_assistant import summarize_meeting, read_uploaded_file
-from risk_analyzer import analyze_risk, read_uploaded_file as risk_read_file
-from task_extractor import extract_tasks
-from effort_estimator import estimate_effort
+from meeting_analysis import summarize_meeting, read_uploaded_file
+from risk_analysis import analyze_risk, read_uploaded_file as risk_read_file
+from task_extraction import extract_tasks
+from effort_estimation import estimate_effort
 
 import pandas as pd
 from io import BytesIO

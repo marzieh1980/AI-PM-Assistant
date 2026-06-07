@@ -14,11 +14,25 @@ import hashlib
 import os
 from datetime import datetime
 
-DB_PATH = os.path.join(os.path.dirname(__file__), "aipm_data.db")
+# Toggle persistence via environment variable:
+# Set AIPM_PERSISTENCE=false to run without creating a local DB file (in-memory only).
+_PERSISTENCE_FLAG = os.environ.get("AIPM_PERSISTENCE", "true").lower()
+PERSISTENCE = _PERSISTENCE_FLAG not in ("0", "false", "no")
+
+if PERSISTENCE:
+    DB_PATH = os.path.join(os.path.dirname(__file__), "aipm_data.db")
+    _DB_URI = False
+else:
+    # Use SQLite in-memory via URI with shared cache so multiple connections share the same in-process DB.
+    DB_PATH = "file:aipm_data?mode=memory&cache=shared"
+    _DB_URI = True
 
 
 def _conn():
-    c = sqlite3.connect(DB_PATH, check_same_thread=False)
+    if _DB_URI:
+        c = sqlite3.connect(DB_PATH, uri=True, check_same_thread=False)
+    else:
+        c = sqlite3.connect(DB_PATH, check_same_thread=False)
     c.row_factory = sqlite3.Row
     return c
 
@@ -266,4 +280,5 @@ def delete_prompt(prompt_id: int):
 
 
 # Initialise on import
+# Initialise DB schema on import (creates file only if PERSISTENCE=True)
 init_db()

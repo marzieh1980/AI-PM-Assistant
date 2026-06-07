@@ -1,4 +1,4 @@
-# meeting_assistant.py
+# meeting_analysis.py
 
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 import torch
@@ -17,7 +17,7 @@ def read_uploaded_file(uploaded_file):
     return content
 
 # -------------------------
-# CLEAN MEETING TEXT - Preprocessing per rimuovere timestamp e nomi
+# CLEAN MEETING TEXT - Preprocessing
 # -------------------------
 def clean_meeting_text(text):
     lines = text.split("\n")
@@ -26,18 +26,16 @@ def clean_meeting_text(text):
     for line in lines:
         line = line.strip()
 
-        # rimuove timestamp e nomi tipo [15:00 – Marco Rossi | PM]
+        # remove timestamp-like lines
         if line.startswith("[") and "]" in line:
             continue
 
-        # rimuove righe vuote o inutili
         if len(line) < 5:
             continue
 
         cleaned_lines.append(line)
 
     return "\n".join(cleaned_lines)
-
 
 
 def summarize_meeting(text):
@@ -60,39 +58,10 @@ IMPORTANT:
 - USE the date and time mentioned in the meeting transcription text, not the upload time
 - Output MUST be in English
 
----
-
-EXAMPLE:
-
-Meeting notes:
-"We confirm release date April 30. Giacomo will optimize pipeline."
-
-Answer:
-
-List of participants:
-- Giacomo
-- Project Manager
-
-Date & time of call:
-- April 30
-
-Summary of call:
-- Discussion about release timeline and pipeline optimization
-
-Decisions Made:
-- Release date confirmed as April 30
-
-Action Items:
-- Optimize pipeline - Giacomo
-
----
-
 NOW ANALYZE:
 
 Meeting notes:
 {text}
-
----
 
 Answer in this EXACT format:
 
@@ -131,7 +100,6 @@ Action Items:
 
     result = tokenizer.decode(outputs[0], skip_special_tokens=True).strip()
 
-    # fallback se output brutto
     if "List of participants:" not in result:
         return """List of participants:
 - Giacomo

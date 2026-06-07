@@ -106,6 +106,13 @@ Access via ⚙️ button in sidebar:
 **Database**: Local SQLite file (`aipm_data.db`) created automatically at first run. The DB file is local-only and not tracked in the repository (see `.gitignore`). No external database server is required.  
 **Vector DB**: In-memory FAISS (session-based)
 
+**Optional (No DB file)**: To run the app without creating a local DB file, start the app with the environment variable `AIPM_PERSISTENCE=false`. This runs an in-memory SQLite DB for the process only (no file is created). Example (Windows PowerShell):
+
+```powershell
+$env:AIPM_PERSISTENCE = 'false'
+streamlit run app.py
+```
+
 ---
 
 ## 📝 File Support
