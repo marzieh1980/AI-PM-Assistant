@@ -1,12 +1,28 @@
 # meeting_analysis.py
 
-from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
-import torch
+"""
+Lazy-load meeting model to avoid heavy downloads at import time.
+The model will be loaded on first call to `summarize_meeting()`.
+"""
+tokenizer = None
+model = None
+torch = None
 
-print("⏳ Loading Meeting Assistant model...")
-tokenizer = AutoTokenizer.from_pretrained("google/flan-t5-base")
-model = AutoModelForSeq2SeqLM.from_pretrained("google/flan-t5-base")
-print("✅ Meeting model ready.")
+def _ensure_model_loaded():
+    global tokenizer, model, torch
+    if tokenizer is not None and model is not None:
+        return
+    try:
+        from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+        import torch as _torch
+    except Exception:
+        raise RuntimeError("transformers or torch not available; install requirements before using meeting summarization")
+
+    print("⏳ Loading Meeting Assistant model (this may take a while)...")
+    tokenizer = AutoTokenizer.from_pretrained("google/flan-t5-base")
+    model = AutoModelForSeq2SeqLM.from_pretrained("google/flan-t5-base")
+    torch = _torch
+    print("✅ Meeting model ready.")
 
 
 # -------------------------
@@ -86,6 +102,9 @@ Action Items:
 - Task - Owner
 - etc.
 """
+
+    # ensure model is available (lazy-load)
+    _ensure_model_loaded()
 
     inputs = tokenizer(prompt, return_tensors="pt", truncation=True, max_length=512)
 
