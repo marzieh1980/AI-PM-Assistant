@@ -151,7 +151,7 @@ _def("meeting_followup_query", "")
 _def("meeting_followup_answer", "")
 _def("risk_output",      "")     # risk analysis results
 # Settings (overwritten on login from DB)
-_def("model_name",    "llama-3.2-3b-instruct:2")
+_def("model_name",    "mistral")
 _def("font_size",     15)
 _def("accent_color",  "#4F8EF7")
 _def("sidebar_color", "#1C2333")
@@ -631,7 +631,7 @@ def render_sidebar():
         # ── Settings panel ────────────────────────────
         if st.session_state.show_settings:
             st.markdown("#### ⚙️ Settings")
-            new_model  = st.text_input("LM Studio model",  value=st.session_state.model_name,   key="set_model")
+            new_model  = st.text_input("Model (Ollama)",  value=st.session_state.model_name,   key="set_model")
             new_font   = st.slider("Font size", 12, 22,    value=st.session_state.font_size,     key="set_font")
             new_accent = st.color_picker("Accent color",   value=st.session_state.accent_color,  key="set_accent")
             new_sbg    = st.color_picker("Sidebar color",  value=st.session_state.sidebar_color, key="set_sbg")

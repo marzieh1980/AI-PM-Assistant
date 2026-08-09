@@ -45,10 +45,10 @@ A powerful Streamlit-based AI assistant for project managers with task extractio
 pip install streamlit langchain-community langchain-text-splitters faiss-cpu transformers torch pdfplumber requests python-docx
 ```
 
-### 2. Setup LM Studio
-- Download [LM Studio](https://lmstudio.ai)
-- Load a model (e.g., `llama-3.2-3b-instruct:2`)
-- Start server on `localhost:1234`
+### 2. Setup Ollama
+- Download [Ollama](https://ollama.ai)
+- Pull a model: `ollama pull mistral` or `ollama pull llama2`
+- Start server: `ollama serve` (runs on `localhost:11434`)
 
 ### 3. Run the App
 ```bash
@@ -120,7 +120,7 @@ AI-PM-Assistant/
 
 Access via ⚙️ button in sidebar:
 
-- **LM Studio Model**: Change model name
+- **Model**: Change model name
 - **Font Size**: Adjust text (12-22px)
 - **Accent Color**: Theme color
 - **Sidebar Color**: Sidebar background
@@ -129,9 +129,9 @@ Access via ⚙️ button in sidebar:
 
 ## 🔧 Configuration
 
-**Model**: Works with any LM Studio compatible model  
-**API**: OpenAI-compatible API on `localhost:1234`  
-**Database**: Local SQLite file (`aipm_data.db`) created automatically at first run. The DB file is local-only and not tracked in the repository (see `.gitignore`). No external database server is required.  
+**Model**: Works with any Ollama compatible model  
+**API**: Native Ollama API on `localhost:11434`  
+**Database**: SQLite (auto-created)  
 **Vector DB**: In-memory FAISS (session-based)
 
 **Optional (No DB file)**: To run the app without creating a local DB file, start the app with the environment variable `AIPM_PERSISTENCE=false`. This runs an in-memory SQLite DB for the process only (no file is created). Example (Windows PowerShell):
@@ -156,8 +156,8 @@ streamlit run app.py
 
 ## 🐛 Troubleshooting
 
-**"Cannot connect to localhost:1234"**
-- Make sure LM Studio is running and server is started
+**"Cannot connect to localhost:11434"**
+- Make sure Ollama is running: `ollama serve`
 
 **"No documents uploaded"**
 - Upload files first before asking questions

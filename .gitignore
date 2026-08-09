@@ -62,3 +62,18 @@ Thumbs.db
 *.tmp
 *.temp
 *.cache
+
+# Virtual environments
+.venv/
+
+# Ollama / AI model cache
+models/
+*.bin
+*.gguf
+
+# FAISS vector databases
+*.faiss
+*.pkl
+
+# Streamlit cache
+.streamlit/

@@ -1,6 +1,6 @@
 import requests
 
-LM_STUDIO_URL = "http://localhost:1234/v1/chat/completions"
+OLLAMA_URL = "http://localhost:11434/api/generate"
 
 
 # -------------------------
@@ -27,8 +27,8 @@ def read_uploaded_file(uploaded_file):
         return f"❌ Unsupported file format: {file_extension}. Please use .txt or .docx"
 
 
-def analyze_risk(user_input, model_name="llama-3.2-3b-instruct:2"):
-    """Analyze risk using LM Studio local server."""
+def analyze_risk(user_input, model_name="mistral"):
+    """Analyze risk using Ollama local server."""
 
     full_prompt = f"""You are a highly experienced scenario planner who understands the
 factors that affect the success of a project. I want you to help
@@ -52,16 +52,17 @@ Project:
 Format your response with clear headings and bullet points. Remove excessive spacing and use concise, professional language."""
 
     try:
-        response = requests.post(LM_STUDIO_URL, json={
+        response = requests.post(OLLAMA_URL, json={
             "model": model_name,
-            "messages": [{"role": "user", "content": full_prompt}],
-            "temperature": 0.7
+            "prompt": full_prompt,
+            "temperature": 0.7,
+            "stream": False
         }, timeout=120)
         result = response.json()
-        return result["choices"][0]["message"]["content"].strip()
+        if "response" not in result:
+            return f"❌ Unexpected response format from Ollama: {result}"
+        return result["response"].strip()
     except requests.exceptions.ConnectionError:
-        return "❌ LM Studio is not running or the local server is not started. Check port 1234."
-    except KeyError:
-        return f"❌ Unexpected response format from LM Studio: {result}"
+        return "❌ Ollama is not running or the local server is not started. Check port 11434."
     except Exception as e:
-        return f"❌ Error contacting LM Studio: {str(e)}"
+        return f"❌ Error contacting Ollama: {str(e)}. Check if Ollama is running."

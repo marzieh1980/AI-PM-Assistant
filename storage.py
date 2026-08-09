@@ -49,7 +49,7 @@ def init_db():
 
         CREATE TABLE IF NOT EXISTS user_settings (
             user_id       INTEGER PRIMARY KEY REFERENCES users(id),
-            model_name    TEXT DEFAULT 'llama-3.2-3b-instruct:2',
+            model_name    TEXT DEFAULT 'mistral',
             font_size     INTEGER DEFAULT 15,
             accent_color  TEXT DEFAULT '#4F8EF7',
             sidebar_color TEXT DEFAULT '#1C2333'
@@ -130,7 +130,7 @@ def load_settings(user_id: int) -> dict:
     if row:
         return dict(row)
     return {
-        "model_name": "llama-3.2-3b-instruct:2",
+        "model_name": "mistral",
         "font_size": 15,
         "accent_color": "#4F8EF7",
         "sidebar_color": "#1C2333",

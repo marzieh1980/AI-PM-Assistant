@@ -71,8 +71,8 @@ def create_vector_db(documents):
 # -------------------------
 # ANSWER WITH OLLAMA (free, local)
 # -------------------------
-LM_STUDIO_URL = "http://localhost:1234/v1/chat/completions"
-LM_STUDIO_MODEL = "llama-3.2-3b-instruct:2"   # default fallback
+OLLAMA_URL = "http://localhost:11434/api/generate"
+OLLAMA_MODEL = "mistral"   # default fallback
 
 def answer_question(context, question, model_name: str = None):
     prompt = f"""You are an expert IT support assistant. Answer using ONLY the provided context...
@@ -85,22 +85,25 @@ Question:
 
 Answer:"""
 
-    _model = model_name or LM_STUDIO_MODEL
+    _model = model_name or OLLAMA_MODEL
     try:
-        response = requests.post(LM_STUDIO_URL, json={
+        response = requests.post(OLLAMA_URL, json={
             "model": _model,
-            "messages": [{"role": "user", "content": prompt}],
-            "temperature": 0.3
+            "prompt": prompt,
+            "temperature": 0.3,
+            "stream": False
         }, timeout=120)
         result = response.json()
-        answer = result["choices"][0]["message"]["content"].strip()
+        if "response" not in result:
+            return f"❌ Unexpected response format from Ollama. Got: {result}"
+        answer = result["response"].strip()
         if not answer or len(answer) < 10:
             return "I don't have enough information in the provided documents to answer this question."
         return answer
     except requests.exceptions.ConnectionError:
-        return "❌ LM Studio is not running or local server is not started."
+        return "❌ Ollama is not running or local server is not started on port 11434."
     except Exception as e:
-        return f"❌ Error contacting LM Studio: {str(e)}"
+        return f"❌ Error contacting Ollama: {str(e)}. Check if Ollama is running."
 
 # -------------------------
 # GENERAL CHAT / CONTEXT QUERY
@@ -112,22 +115,25 @@ Question:
 {question}
 
 Answer:"""
-    _model = model_name or LM_STUDIO_MODEL
+    _model = model_name or OLLAMA_MODEL
     try:
-        response = requests.post(LM_STUDIO_URL, json={
+        response = requests.post(OLLAMA_URL, json={
             "model": _model,
-            "messages": [{"role": "user", "content": prompt}],
-            "temperature": 0.2
+            "prompt": prompt,
+            "temperature": 0.2,
+            "stream": False
         }, timeout=120)
         result = response.json()
-        answer = result["choices"][0]["message"]["content"].strip()
+        if "response" not in result:
+            return f"❌ Unexpected response format from Ollama. Got: {result}"
+        answer = result["response"].strip()
         if not answer or len(answer) < 10:
             return "I don't have enough information to answer that question right now."
         return answer
     except requests.exceptions.ConnectionError:
-        return "❌ LM Studio is not running or local server is not started."
+        return "❌ Ollama is not running or local server is not started on port 11434."
     except Exception as e:
-        return f"❌ Error contacting LM Studio: {str(e)}"
+        return f"❌ Error contacting Ollama: {str(e)}. Check if Ollama is running."
 
 # -------------------------
 # CONTEXTUAL DOCUMENT QUESTION

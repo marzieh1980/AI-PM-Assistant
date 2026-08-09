@@ -69,7 +69,7 @@
 [⚙️ Settings] [📚 Prompts] [🚪 Logout]
 
 ⚙️ Settings Panel (when toggled)
-  - LM Studio model selection
+  - Model selection
   - Font size adjustment
   - Accent color picker
   - Sidebar color picker
@@ -149,7 +149,7 @@ Your Assistant now operates as a **stateless, single-turn chat**:
 
 Access via ⚙️ button in sidebar:
 
-- **LM Studio Model**: Model name (default: "llama-3.2-3b-instruct:2")
+- **Model**: Model name (default: "mistral")
 - **Font Size**: Adjust text size (12-22px)
 - **Accent Color**: Theme color picker
 - **Sidebar Color**: Sidebar background color
@@ -164,7 +164,7 @@ All settings save to your profile!
 |-------|----------|
 | "Upload documents and click Load first" | Go to Knowledge Hub, upload files, click "Load documents..." |
 | "I don't have enough information" | Document doesn't contain answer. Try asking differently or upload different docs |
-| "LM Studio not running" | Start LM Studio server on localhost:1234 |
+| "Ollama not running" | Run `ollama serve` on localhost:11434 |
 | Chat disappeared | Check sidebar - it may be filtered by tab or deleted |
 
 ---
