@@ -59,6 +59,18 @@ Open: `http://localhost:8501`
 
 ---
 
+## 🐳 Docker
+Build the container and run the app locally:
+
+```bash
+docker build -t ai-pm-assistant .
+docker run --rm -p 8501:8501 ai-pm-assistant
+```
+
+Then open: `http://localhost:8501`
+
+---
+
 ## ▶️ Run (commands)
 
 Install dependencies:
